@@ -22,4 +22,11 @@ if [ $? -ne 0 ]; then
 fi
 
 git remote set-url "$remote_name" "$repo_uri"
-git subtree push --prefix _output origin gh-pages
+
+subtree_head=$(git subtree split --prefix "$build_dir" "$main_branch")
+if [ -z "$subtree_head"]
+then
+    echo "Failed to get subtree head"
+    exit 1
+fi
+git push "$remote_name" "$subtree_head":"$target_branch" --force-with-lease
