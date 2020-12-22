@@ -1,4 +1,4 @@
 $if(abstract)$
-* [$title$]($URI$):
+* [$title$]($URI$) ($date$):
   $abstract$
 $endif$
