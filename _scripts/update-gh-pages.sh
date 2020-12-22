@@ -12,9 +12,6 @@ cd "$GITHUB_WORKSPACE"
 git config user.name "$GITHUB_ACTOR"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
-git checkout "$target_branch"
-git rebase "${remote_name}/${main_branch}"
-
 make -B _clean _build
 git add "$build_dir"
 
