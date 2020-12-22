@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo xtrace
 
 repo_uri="https://x-access-token:${DEPLOY_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 remote_name="origin"
@@ -22,4 +22,4 @@ if [ $? -ne 0 ]; then
 fi
 
 git remote set-url "$remote_name" "$repo_uri"
-git push origin $(git subtree split --prefix "$build_dir" "$main_branch"):"$target_branch" --force-with-lease
+git push "$remote_name" $(git subtree split --prefix "$build_dir" "$main_branch"):"$target_branch" --force-with-lease
