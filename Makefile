@@ -55,5 +55,5 @@ $(SUBDIRS):
 # Catch-all: this is a file that we just copy
 $(OUTPUT_DIR)/%: %
 	@mkdir -p $(@D)
-	cp $< $@
+	cp -f $< $@
 
