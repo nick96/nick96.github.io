@@ -4,9 +4,10 @@ PANDOC_ARGS=
 
 # There are no configurable options below this line, only the code of the generator itself.
 
-ABS_MAKEFILE=$(abspath $(lastword $(MAKEFILE_LIST)))
+ABS_MAKEFILE=$(lastword $(MAKEFILE_LIST))
 OUTPUT_DIR=$(dir $(ABS_MAKEFILE))_output
-PANDOC=$(abspath _pandoc)
+PANDOC=_pandoc
+PANDOC_COMMAND=docker run -i -v $(PWD):/workspace --workdir=/workspace pandoc/core
 
 SUBDIRS=$(sort $(shell find . -maxdepth 1 -type d -iname '[a-zA-Z0-9]*'))
 SUBDIRS_OUT=$(patsubst %, $(OUTPUT_DIR)/%, $(SUBDIRS))
@@ -38,12 +39,12 @@ watch: _clean _build
 $(OUTPUT_DIR)/index.html: index.md $(SUBBLURBS)
 	@mkdir -p "$(@D)"
 	find . -iname '*.blurb' | sort -r | xargs cat > $(OUTPUT_DIR)/_blurbs.md
-	pandoc $(PANDOC_ARGS) "index.md" $(OUTPUT_DIR)/_blurbs.md --data-dir="$(PANDOC)" --standalone --to=html5 --output="$(OUTPUT_DIR)/index.html" --template=default
+	$(PANDOC_COMMAND) $(PANDOC_ARGS) "index.md" $(OUTPUT_DIR)/_blurbs.md --data-dir="$(PANDOC)" --standalone --to=html5 --output="$(OUTPUT_DIR)/index.html" --template=default
 
 $(OUTPUT_DIR)/%.html: %.md
 	@mkdir -p "$(@D)"
-	pandoc $(PANDOC_ARGS) "$<"  --standalone --to=html5 --data-dir="$(PANDOC)" --output="$@" --template=default
-	pandoc $(PANDOC_ARGS) "$<" --data-dir="$(PANDOC)" --standalone --to=html5 --output="$@.blurb" --template=blurb -M URI=$(BASE_URL)/$*.html
+	$(PANDOC_COMMAND) $(PANDOC_ARGS) "$<"  --standalone --to=html5 --data-dir="$(PANDOC)" --output="$@" --template=default
+	$(PANDOC_COMMAND) $(PANDOC_ARGS) "$<" --data-dir="$(PANDOC)" --standalone --to=html5 --output="$@.blurb" --template=blurb -M URI=$(BASE_URL)/$*.html
 
 # To recurse, we need to pass along the path to Pandoc-SSG Makefile, but
 # also the option values that cannot be calculated once we are within a
