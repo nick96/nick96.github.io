@@ -7,7 +7,7 @@ PANDOC_ARGS=
 ABS_MAKEFILE=$(lastword $(MAKEFILE_LIST))
 OUTPUT_DIR=$(dir $(ABS_MAKEFILE))_output
 PANDOC=_pandoc
-PANDOC_COMMAND=docker run -i -v $(PWD):/workspace --workdir=/workspace pandoc/core
+PANDOC_COMMAND=docker run -v $(PWD):/workspace --workdir=/workspace pandoc/core
 
 SUBDIRS=$(sort $(shell find . -maxdepth 1 -type d -iname '[a-zA-Z0-9]*'))
 SUBDIRS_OUT=$(patsubst %, $(OUTPUT_DIR)/%, $(SUBDIRS))
