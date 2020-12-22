@@ -25,4 +25,4 @@ if [ $? -ne 0 ]; then
 fi
 
 git remote set-url "$remote_name" "$repo_uri"
-git subtree push --prefix "$build_dir" "$remote_name" "$target_branch"
+git push origin $(git subtree split --prefix "$build_dir" "$main_branch"):"$target_branch" --force-with-lease
