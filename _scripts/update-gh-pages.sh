@@ -5,7 +5,7 @@ repo_uri="https://x-access-token:${DEPLOY_TOKEN}@github.com/${GITHUB_REPOSITORY}
 remote_name="origin"
 main_branch="master"
 target_branch="gh-pages"
-build_dir="dist"
+build_dir="_output"
 
 cd "$GITHUB_WORKSPACE"
 
