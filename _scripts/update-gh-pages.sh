@@ -22,4 +22,4 @@ if [ $? -ne 0 ]; then
 fi
 
 git remote set-url "$remote_name" "$repo_uri"
-git push "$remote_name" $(git subtree split --prefix "$build_dir" "$main_branch"):"$target_branch" --force-with-lease
+git subtree push --prefix _output origin gh-pages
